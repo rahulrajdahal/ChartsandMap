@@ -60,7 +60,7 @@ function TaskOne() {
    * @returns {JSX.Element}
    */
   return (
-    <>
+    <div className="w-full h-screen">
       <h1 className="text-3xl text-center mb-4">Task One</h1>
 
       <div className="flex flex-col items-center gap-2">
@@ -91,7 +91,7 @@ function TaskOne() {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
