@@ -5,12 +5,10 @@ import { TaskOne, TaskTwo, Home } from "./pages";
 import { routes } from "./utils/routes";
 
 function App() {
-  const [curentPath, setCurrentPath] = React.useState<string>("");
+  const [curentPath, setCurrentPath] = React.useState<string>("/taskone");
 
   const handleLinkOnClick = (path: string) =>
     setCurrentPath((currentPath: string) => path);
-
-  console.log("curentPath", curentPath);
 
   return (
     <BrowserRouter>
