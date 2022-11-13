@@ -1,11 +1,9 @@
 import React from "react";
 import Map, {
-  AttributionControl,
   FullscreenControl,
   GeolocateControl,
   Marker,
   NavigationControl,
-  Popup,
   ScaleControl,
 } from "react-map-gl";
 
@@ -23,16 +21,14 @@ function TaskTwo() {
   const [lon, setLon] = React.useState(87.27721567619342);
 
   const mapRef = React.useRef(null);
-  const [showPopup, setShowPopup] = React.useState<boolean>(true);
 
   const [viewport, setViewport] = React.useState<any>({
     latitude: 0,
     longitude: 0,
-    // zoom: 1,
+
     transitionDuration: 100,
   });
   const [markers, setMarkers] = React.useState<any>([{ lat, lon }]);
-  const [geoJson, setGeoJson] = React.useState();
 
   const handleLatLonOnChange = async (e: any) => {
     const { value } = e.target;
@@ -42,7 +38,6 @@ function TaskTwo() {
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?types=place%2Cpostcode%2Caddress&limit=1&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`
       );
       const data = await response.json();
-      setGeoJson((prev) => data);
       let temp: any = [];
       data.features.map((item: any) => {
         temp.push(item);
@@ -73,7 +68,6 @@ function TaskTwo() {
       ...viewport,
       latitude: lat,
       longitude: lon,
-      // zoom: 12,
       width: "100%",
       height: "100vh",
     }));
@@ -106,20 +100,13 @@ function TaskTwo() {
         <GeolocateControl ref={mapRef} />
         <ScaleControl />
         <NavigationControl />
-
-        {/* {showPopup && (
-          <Popup
-            longitude={lon}
-            latitude={lat}
-            anchor="top"
-            onClose={() => setShowPopup((prev) => false)}
-          >
-            You are here
-          </Popup>
-        )} */}
       </Map>
 
-      <div className="absolute top-2 inline-flex items-center gap-2 self-center bg-slate-400 px-4 py-2 left-60">
+      <div
+        className="absolute top-[6.25rem] inline-flex items-center gap-2 self-center bg-slate-400 px-4 py-2 
+      md:top-0 md:left-60 
+      "
+      >
         <div className="relative">
           <input
             type="text"
@@ -143,23 +130,9 @@ function TaskTwo() {
             </div>
           )}
         </div>
-        {/* <input
-          type="text"
-          placeholder="Enter Longitude"
-          className="p-2 rounded-xs"
-        /> */}
-        {/* <button
-          onClick={handleAddMarker}
-          className="bg-blue-800 px-4 py-2 rounded-sm text-white"
-        >
-          Add Marker
-        </button> */}
       </div>
     </>
   );
 }
 
 export default TaskTwo;
-
-// lat and long cordinates
-// latitude:26.449432670637346,longitude:87.27721567619342

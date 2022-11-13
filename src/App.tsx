@@ -12,8 +12,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="flex">
-        <div className="min-w-[240px] py-2 px-8 flex flex-col gap-4">
+      <div className="md:flex">
+        <div className="min-w-[240px] py-2 px-8 flex flex-col gap-4 bg-blue-100">
           <h3 className="text-xl font-bold">
             <Link
               to={routes.HOME}
@@ -22,7 +22,7 @@ function App() {
               Tasks
             </Link>
           </h3>
-          <ul className="flex flex-col gap-2">
+          <ul className="flex md:flex-col gap-2">
             <li
               className={`${
                 curentPath === routes.TASKONE
