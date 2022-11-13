@@ -17,19 +17,27 @@ mapboxgl.workerClass =
   require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 function TaskTwo() {
+  // store latitude and longitude in state
   const [lat, setLat] = React.useState(26.449432670637346);
   const [lon, setLon] = React.useState(87.27721567619342);
 
+  // reference the map container
   const mapRef = React.useRef(null);
 
+  // store viewport in  state
   const [viewport, setViewport] = React.useState<any>({
     latitude: 0,
     longitude: 0,
-
     transitionDuration: 100,
   });
+
+  // store the markers array in state
   const [markers, setMarkers] = React.useState<any>([{ lat, lon }]);
 
+  /**
+   * @description This function is used to update the suggestions based on the input
+   * @param e = event object triggered by the latlong input change
+   */
   const handleLatLonOnChange = async (e: any) => {
     const { value } = e.target;
     const [lat, lon] = value.split(",");
@@ -47,8 +55,14 @@ function TaskTwo() {
       alert("Error");
     }
   };
+
+  // store the suggestions in state
   const [suggestions, setSuggestions] = React.useState([]);
 
+  /**
+   * @description This function is used to add a marker on the map
+   * @param suggestion - suggestion object returned from mapbox api
+   */
   const handleAddMarker = async (suggestion: any) => {
     setSuggestions((prev) => []);
 
@@ -72,6 +86,42 @@ function TaskTwo() {
       height: "100vh",
     }));
   }, [lat, lon, viewport]);
+
+  /**
+   * @description Renders the UI for LatLong Input
+   * @returns {JSX.Element}
+   */
+  const renderInput = () => (
+    <div
+      className="absolute top-[6.25rem] inline-flex items-center gap-2 self-center bg-slate-400 px-4 py-2 
+  md:top-0 md:left-60 
+  "
+    >
+      <div className="relative">
+        <input
+          type="text"
+          placeholder="Enter LatLon or an address"
+          className="p-2 rounded-xs"
+          onChange={handleLatLonOnChange}
+        />
+        {suggestions.length > 0 && (
+          <div className="absolute px-6 py-2 bg-white mt-2 rounded-sm">
+            <ul>
+              {suggestions.map((suggestion: any) => (
+                <li
+                  key={suggestion.id}
+                  className="whitespace-nowrap hover:cursor-pointer"
+                  onClick={() => handleAddMarker(suggestion)}
+                >
+                  <p>{suggestion.place_name}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -102,35 +152,7 @@ function TaskTwo() {
         <NavigationControl />
       </Map>
 
-      <div
-        className="absolute top-[6.25rem] inline-flex items-center gap-2 self-center bg-slate-400 px-4 py-2 
-      md:top-0 md:left-60 
-      "
-      >
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Enter LatLon or an address"
-            className="p-2 rounded-xs"
-            onChange={handleLatLonOnChange}
-          />
-          {suggestions.length > 0 && (
-            <div className="absolute px-6 py-2 bg-white mt-2 rounded-sm">
-              <ul>
-                {suggestions.map((suggestion: any) => (
-                  <li
-                    key={suggestion.id}
-                    className="whitespace-nowrap hover:cursor-pointer"
-                    onClick={() => handleAddMarker(suggestion)}
-                  >
-                    <p>{suggestion.place_name}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      </div>
+      {renderInput()}
     </>
   );
 }
