@@ -2,6 +2,7 @@ import React from "react";
 import Map, {
   FullscreenControl,
   GeolocateControl,
+  MapRef,
   Marker,
   NavigationControl,
   ScaleControl,
@@ -22,17 +23,7 @@ function TaskTwo() {
   const [lon, setLon] = React.useState(87.27721567619342);
 
   // reference the map container
-  const mapRef = React.useRef(null);
-
-  // store viewport in  state
-  const [viewport, setViewport] = React.useState<any>({
-    latitude: 0,
-    longitude: 0,
-    transitionDuration: 100,
-  });
-
-  // store the markers array in state
-  const [markers, setMarkers] = React.useState<any>([{ lat, lon }]);
+  const mapRef = React.useRef<MapRef>() as any;
 
   /**
    * @description This function is used to update the suggestions based on the input
@@ -43,7 +34,7 @@ function TaskTwo() {
     const [lat, lon] = value.split(",");
     try {
       const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?types=place%2Cpostcode%2Caddress&limit=1&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?country=np&types=address%2Cregion%2Cpostcode%2Ccountry%2Cdistrict%2Clocality%2Cplace%2Cneighborhood%2Cpoi&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`
       );
       const data = await response.json();
       let temp: any = [];
@@ -66,26 +57,14 @@ function TaskTwo() {
   const handleAddMarker = async (suggestion: any) => {
     setSuggestions((prev) => []);
 
-    setLon((prev) => suggestion.geometry.coordinates[0]);
-    setLat((prev) => suggestion.geometry.coordinates[1]);
-    setMarkers((prev: any) => [
-      ...prev,
-      {
-        lat: suggestion.geometry.coordinates[1],
-        lon: suggestion.geometry.coordinates[0],
-      },
-    ]);
-  };
+    setLat((prev) => suggestion.center[1]);
+    setLon((prev) => suggestion.center[0]);
 
-  React.useEffect(() => {
-    setViewport((prev: any) => ({
-      ...viewport,
-      latitude: lat,
-      longitude: lon,
-      width: "100%",
-      height: "100vh",
-    }));
-  }, [lat, lon, viewport]);
+    mapRef.current?.flyTo({
+      center: [suggestion.center[0], suggestion.center[1]],
+      duration: 2000,
+    });
+  };
 
   /**
    * @description Renders the UI for LatLong Input
@@ -122,29 +101,24 @@ function TaskTwo() {
       </div>
     </div>
   );
-
+  const initialViewState = {
+    latitude: lat,
+    longitude: lon,
+    zoom: 18,
+    bearing: 0,
+    pitch: 0,
+  };
   return (
     <>
       <Map
         ref={mapRef}
-        initialViewState={{
-          longitude: lon,
-          latitude: lat,
-          zoom: 24,
-        }}
+        reuseMaps
+        initialViewState={initialViewState}
         style={{ width: "100%", height: "100vh" }}
         mapStyle="mapbox://styles/ankur20/cklq3agbe6tc918ny8hlc7ch6"
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-        {...viewport}
       >
-        {markers.map((marker: any, i: number) => (
-          <Marker
-            key={i}
-            longitude={marker.lon}
-            latitude={marker.lat}
-            anchor="bottom"
-          />
-        ))}
+        <Marker longitude={lon} latitude={lat} anchor="bottom" />
 
         <FullscreenControl />
         <GeolocateControl ref={mapRef} />
