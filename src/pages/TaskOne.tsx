@@ -5,7 +5,6 @@ import { Loader } from "../components";
 
 import React, { useState, useEffect, useMemo } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
-import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 function TaskOne() {
   const api = new Api();
@@ -92,11 +91,6 @@ function TaskOne() {
           </div>
         )}
       </div>
-
-      {/* <MessengerCustomerChat
-        pageId="107560938864907"
-        appId="498968665380848"
-      /> */}
     </div>
   );
 }
