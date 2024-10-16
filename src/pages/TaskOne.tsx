@@ -1,10 +1,10 @@
-import { Api } from "../app/api";
-import { queries } from "../utils/queries";
 import { useQuery } from "@tanstack/react-query";
+import { Api } from "../app/api";
 import { Loader } from "../components";
+import { queries } from "../utils/queries";
 
-import React, { useState, useEffect, useMemo } from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
+import { useMemo } from "react";
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 function TaskOne() {
   const api = new Api();
