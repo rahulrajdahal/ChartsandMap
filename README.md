@@ -1,50 +1,85 @@
-# React + TypeScript + Vite
+# [Charts & Map](https://github.com/rahulrajdahal/chartsandmap). Visualize your data in charts and explore the world with a Map
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Visualize data in charts. Explore the world with a Map.
 
-Currently, two official plugins are available:
+## Preview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[![Charts & Map](./screenshots/charts.png)](https://github.com/rahurajdahal/chartsandmap)
+![Charts & Map](./screenshots/map.png)
 
-## Expanding the ESLint configuration
+## 🏗 Development Guide
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 1. clone the repository
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```sh
+git clone https://github.com/rahulrajdahal/chartsandmap.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 2. Install Dependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+#### npm
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```sh
+cd chartsandmap && npm install
 ```
+
+### 3. Update the environment variables
+
+Create a **.env** file and add the following
+
+// .env
+
+```sh
+VITE_MAPBOX_ACCESS_TOKEN='your mapbox access token'
+```
+
+### 4. Run development server
+
+```sh
+npm run dev
+```
+
+#### OR
+
+### Run Production server
+
+```sh
+npm run preview
+```
+
+## 🚀 Project Structure
+
+Inside of project [Charts & Map](https://github.com/rahulrajdahal/chartsandmap), you'll see the following folders and files:
+
+```text
+/
+├── public/
+│   └── favicon.svg
+├── src/
+|   ├── assets/
+│   │   └── icon.svg
+|   ├── components/
+│   │   │── Component.tsx
+│   │   └── index.ts
+|   ├── routes/
+│   │   │── __root.tsx
+│   │   └── page.lazy.tsx
+│   ├── main.tsx
+│   ├── index.css
+│── index.html
+│── tailwind.config.js
+│── vite.config.ts
+└── package.json
+```
+
+## 🧞 Commands
+
+All commands are run from the root of the project, from a terminal:
+
+| Command           | Action                                        |
+| :---------------- | :-------------------------------------------- |
+| `npm install`     | Installs dependencies.                        |
+| `npm run dev`     | Starts local dev server at `localhost:5173`.  |
+| `npm run build`   | Build your production site to `./dist/`.      |
+| `npm run preview` | Preview your build locally, before deploying. |
+| `npm run lint`    | Check all linting errors.                     |
