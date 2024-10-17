@@ -1,70 +1,28 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { routes } from "../utils/routes";
+import { Link } from "@tanstack/react-router";
 
-/**
- * @description Renders the sidebar for the application
- * @returns {JSX.Element}
- */
-function Sidebar() {
-  /**
-   * @description state to store the current url
-   */
-  const [curentPath, setCurrentPath] = React.useState<string>("/taskone");
+// Links for the pages.
+const links = [
+  { id: 1, title: "Task One", to: "/" },
+  { id: 2, title: "Task Two", to: "/task-two" },
+];
 
-  /**
-   *
-   * @description This function is used to set the current path
-   * @param path  - path to be set as current path
-   * @returns
-   */
-  const handleLinkOnClick = (path: string) =>
-    setCurrentPath((currentPath: string) => path);
-
+export default function Sidebar() {
   return (
-    <div className="min-w-[240px] py-2 px-8 flex flex-col gap-4 bg-blue-100">
-      <h3 className="text-xl font-bold">
-        <Link
-          to={routes.HOME}
-          onClick={() => handleLinkOnClick(routes.TASKONE)}
-        >
-          Tasks
-        </Link>
-      </h3>
-      <ul className="flex md:flex-col gap-2">
-        <li
-          className={`${
-            curentPath === routes.TASKONE
-              ? "bg-blue-800 text-white"
-              : "hover:bg-blue-400 hover:text-white"
-          } px-4 py-2 rounded-sm`}
-        >
+    <div className="max-w-[15rem] h-screen w-full py-6 px-4 flex items-center flex-col gap-4 bg-blue-100">
+      <Link className="text-2xl font-bold" to={"/"}>
+        Tasks
+      </Link>
+      <div className="flex md:flex-col gap-2 w-full">
+        {links.map(({ id, title, to }) => (
           <Link
-            to={routes.TASKONE}
-            onClick={() => handleLinkOnClick(routes.TASKONE)}
+            key={id}
+            to={to}
+            className="[&.active]:bg-blue-800 [&.active]:text-white rounded-md hover:bg-blue-400 hover:text-white px-8 py-2"
           >
-            Task One
+            {title}
           </Link>
-        </li>
-        <li
-          className={`${
-            curentPath === routes.TASKTWO
-              ? "bg-blue-800 text-white"
-              : "hover:bg-blue-400 hover:text-white"
-          }
-            px-4 py-2 rounded-sm
-            `}
-        >
-          <Link
-            to={routes.TASKTWO}
-            onClick={() => handleLinkOnClick(routes.TASKTWO)}
-          >
-            Task Two
-          </Link>
-        </li>
-      </ul>
+        ))}
+      </div>
     </div>
   );
 }
-
-export default Sidebar;
