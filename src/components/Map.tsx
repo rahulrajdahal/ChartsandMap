@@ -1,4 +1,4 @@
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import mapboxgl from "mapbox-gl";
 import {
   ChangeEvent,
@@ -9,6 +9,8 @@ import {
   useRef,
 } from "react";
 
+import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -28,12 +30,24 @@ export default function AppMap() {
     });
 
     mapRef.current.addControl(
-      new MapboxGeocoder({
+      new MapboxDirections({
         accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
       })
     );
 
+    mapRef.current.addControl(
+      new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        marker: true,
+      }),
+      "bottom-left"
+    );
+
+    mapRef.current.addControl(new mapboxgl.FullscreenControl());
+    mapRef.current.addControl(new mapboxgl.NavigationControl());
+    mapRef.current.addControl(new mapboxgl.GeolocateControl());
+    mapRef.current.addControl(new mapboxgl.ScaleControl());
     return () => mapRef.current.remove();
   }, []);
 
