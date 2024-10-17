@@ -1,3 +1,4 @@
+// @ts-expect-error - Type definition for mapbox-directions does not exist.
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import mapboxgl from "mapbox-gl";
 import {
@@ -10,8 +11,6 @@ import {
 } from "react";
 
 import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 export default function AppMap() {
@@ -33,15 +32,6 @@ export default function AppMap() {
       new MapboxDirections({
         accessToken: mapboxgl.accessToken,
       })
-    );
-
-    mapRef.current.addControl(
-      new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-        marker: true,
-      }),
-      "bottom-left"
     );
 
     mapRef.current.addControl(new mapboxgl.FullscreenControl());
